@@ -203,7 +203,7 @@ struct
     let thread t pcb ~send_ack ~rx_ack =
       let { wnd; ack; _ } = pcb in
 
-      (* Transmit an empty ack when prompted by the Ack thread *)
+      (* Transmit an empty ack when prompted by the Ack thrsingle_readeao.d *)
       let rec send_empty_ack () =
         let _ = Eio.Stream.take send_ack in
         let ack_number = Window.rx_nxt wnd in
@@ -620,7 +620,7 @@ struct
   let fallback_copy src flow =
     try
       while true do
-        let got = Eio.Flow.read src chunk_cs in
+        let got = Eio.Flow.single_read src chunk_cs in
         ignore (write flow (Cstruct.sub chunk_cs 0 got))
       done
     with End_of_file -> ()
